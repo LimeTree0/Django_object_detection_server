@@ -1,3 +1,4 @@
+import json
 import threading
 
 import cv2
@@ -44,10 +45,11 @@ class QuestionListAPI(APIView):
 
 # 카메라 관련 클래스
 class VideoCamera(object):
-    model = YOLO("yolov8s.pt")
+    # model = YOLO("yolov8s.pt")
 
     def __init__(self):
-        self.video = cv2.VideoCapture("rtsp://172.30.1.58:8080/h264.sdp")
+        src = "rtsp://172.30.1.56:8080/h264.sdp"
+        self.video = cv2.VideoCapture(0)
         (self.grabbed, self.frame) = self.video.read()
         threading.Thread(target=self.update, args=()).start()
 
@@ -57,7 +59,7 @@ class VideoCamera(object):
     def get_frame(self):
         image = self.frame
         _, jpeg = cv2.imencode('.jpg', image)
-        print(self.model(image))
+        # self.model.predict(image)
         return jpeg.tobytes()
 
     def update(self):
@@ -71,14 +73,17 @@ def gen(camera):
 
         # frame단위로 이미지를 계속 반환한다. (yield)
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n'
+                                                             b'--frame\r\n'
+                                                             b'Content-Type: text/plain\r\n\r\n' + "hello".encode() + b'\r\n\r\n'
+               )
 
 
 # detectme를 띄우는 코드(여기서 웹캠을 킨다.)
 @gzip.gzip_page
 def detected(request):
     try:
-        cam = VideoCamera()  # 웹캠 호출
+        cam = 1  # VideoCamera()  # 웹캠 호출
         # frame단위로 이미지를 계속 송출한다
         return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
     except:  # This is bad! replace it with proper handling
