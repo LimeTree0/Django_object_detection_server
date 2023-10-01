@@ -13,6 +13,7 @@ from .models import Question
 from .serializers import QuestionSerializer
 
 from ultralytics import YOLO
+import supervision as sv
 
 
 # Create your views here.
@@ -45,21 +46,48 @@ class QuestionListAPI(APIView):
 
 # 카메라 관련 클래스
 class VideoCamera(object):
-    # model = YOLO("yolov8s.pt")
-
     def __init__(self):
-        src = "rtsp://172.30.1.56:8080/h264.sdp"
-        self.video = cv2.VideoCapture(0)
+        src = "rtsp://172.30.1.6:8080/h264.sdp"
+        self.video = cv2.VideoCapture(src)
         (self.grabbed, self.frame) = self.video.read()
+
+        #모델 선택
+        self.model = YOLO("yolov8s.pt")
+        self.model.to('cuda')
+
+        # 이미지에 나타낼 바운딩 박스 설정
+        self.box_annotator = sv.BoxAnnotator(
+            thickness=2,
+            text_thickness=2,
+            text_scale=1
+        )
+
         threading.Thread(target=self.update, args=()).start()
 
     def __del__(self):
         self.video.release()
 
     def get_frame(self):
-        image = self.frame
-        _, jpeg = cv2.imencode('.jpg', image)
-        # self.model.predict(image)
+        frame = self.frame
+        # 객체 탐지 및 결과 생성
+        result = self.model(frame)[0]
+        detections = sv.Detections.from_yolov8(result)
+
+        # 탐지 객체 라벨(객체 이름, 신뢰도)
+        labels = [
+            f"{self.model.model.names[class_id]} {confidence:0.2f}"
+            for _, _, confidence, class_id, _
+            in detections
+        ]
+
+        # 탐지 객체 로그
+        print(labels)
+
+        # 이미지에 바운딩 박스 생성
+        frame = self.box_annotator.annotate(scene=frame, detections=detections, labels=labels)
+
+        _, jpeg = cv2.imencode('.jpg', frame)
+
         return jpeg.tobytes()
 
     def update(self):
@@ -74,8 +102,8 @@ def gen(camera):
         # frame단위로 이미지를 계속 반환한다. (yield)
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n'
-                                                             b'--frame\r\n'
-                                                             b'Content-Type: text/plain\r\n\r\n' + "hello".encode() + b'\r\n\r\n'
+                                                             # b'--frame\r\n'
+                                                             # b'Content-Type: text/plain\r\n\r\n' + "hello".encode() + b'\r\n\r\n'
                )
 
 
@@ -83,7 +111,7 @@ def gen(camera):
 @gzip.gzip_page
 def detected(request):
     try:
-        cam = 1  # VideoCamera()  # 웹캠 호출
+        cam = VideoCamera()  # 웹캠 호출
         # frame단위로 이미지를 계속 송출한다
         return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
     except:  # This is bad! replace it with proper handling
