@@ -42,7 +42,7 @@ class VideoCamera(object):
         ]
 
         # 탐지 객체 로그
-        print(type(labels))
+        print("[camera.py log]",  "detected: " ,labels)
 
         # 이미지에 바운딩 박스 생성
         frame = self.box_annotator.annotate(scene=frame, detections=detections, labels=labels)
