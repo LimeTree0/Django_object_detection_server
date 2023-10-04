@@ -59,6 +59,14 @@ django 다운로드
 
 # 실행방법
 
+가상환경을 설정하고 위 라이브러리를 다운받는다.
+
+git clone을 이용해 가상환경이 설정된 위치에 프로젝트를 다운받는다.
+```angular2html
+    git clone 프로젝트 주소
+```
+
+
 프로젝트의 루트 폴더(Django_object_detection_server)에서 다음 명령어를 입력한다.
 ```angular2html
     python manage.py runserver
