@@ -15,6 +15,8 @@ GPU를 사용하기 떄문에 CUDA 관련 설정이 완료되어 있어야 한�
 1. ultralytics 8.0.181
 2. supervision 0.14.0 
 3. pytorch 2.0.0+cu118 외 기타 라이브러리
+4. Django
+5. opencv_python
 
 아래 pytorch 페이지에서 cuda 버전에 맞게 라이브러리를 다운 받는다.
 
@@ -42,4 +44,27 @@ GPU를 사용하기 떄문에 CUDA 관련 설정이 완료되어 있어야 한�
 
 ```angular2html
     pip install supervision
+```
+
+opencv 다운로드
+
+```angular2html
+    pip install opencv_python
+```
+
+django 다운로드
+```angular2html
+    pip install django
+```
+
+# 실행방법
+
+프로젝트의 루트 폴더(Django_object_detection_server)에서 다음 명령어를 입력한다.
+```angular2html
+    python manage.py runserver
+```
+
+주소 창에 다음과 같이 입력한다.
+```angular2html
+    http://127.0.0.1:8000/pybo/
 ```
