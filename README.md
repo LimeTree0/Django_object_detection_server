@@ -84,6 +84,12 @@ daphne 다운로드
 ```angular2html
     pip install daphne
 ```
+<br>
+
+channels 다운로드(이 부분은 오류 해결법1에 자세히 설명한다.)
+```
+    pip install channels
+```
 
 # 실행방법
 
@@ -105,4 +111,16 @@ git clone을 이용해 가상환경이 설정된 위치에 프로젝트를 다�
 주소 창에 다음과 같이 입력한 후 방 번호 입력하고 룸에 접속해 메세지 창에 아무 문자나 입력하면(enter 나 send 클릭) 탐지 실행 멈추면 다시 문자 쓰기
 ```angular2html
      http://127.0.0.1:8000/chat/
+```
+
+# 오류 해결법
+오류 해결법 1
+channels를 설치하지 않으면 다음 오류가 발생한다.
+```
+    Cannot import ASGI_APPLICATION module 'Django_object_detection_server.asgi'
+```
+만약 이렇게 해도 오류가 발생한다면  django shell을 이용해서 문제점을 찾으면 된다.
+```
+    python django shell
+    >>from Django_object_detection_server.routing import application
 ```
