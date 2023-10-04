@@ -4,6 +4,7 @@ import json
 from channels.generic.websocket import WebsocketConsumer
 from . import camera
 
+
 # websocket 연결부터 종료까지 수행할 일이 담긴 클래스
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
