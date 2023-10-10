@@ -1,53 +1,109 @@
-<!-- chat/templates/chat/room.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Astro description">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="generator" content="Astro v3.2.3">
+    <title>Room</title>
+    <link rel="stylesheet" href="/static/cctv.0f69469b.css"/>
+    <script type="module" src="/static/hoisted.ee050db1.js"></script>
+    <style>[data-astro-transition-scope="astro-s45abioj-1"] {
+        view-transition-name: main-cctv-image;
+    }
+
+    @layer astro {
+        ::view-transition-old(main-cctv-image) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeOut;
+        }
+
+        ::view-transition-new(main-cctv-image) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeIn;
+        }
+
+        [data-astro-transition=back]::view-transition-old(main-cctv-image) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeOut;
+        }
+
+        [data-astro-transition=back]::view-transition-new(main-cctv-image) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeIn;
+        }
+    }
+
+    [data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-s45abioj-1"],
+    [data-astro-transition-fallback="old"][data-astro-transition-scope="astro-s45abioj-1"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeOut;
+    }
+
+    [data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-s45abioj-1"],
+    [data-astro-transition-fallback="new"][data-astro-transition-scope="astro-s45abioj-1"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeIn;
+    }
+
+    [data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-s45abioj-1"],
+    [data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-s45abioj-1"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeOut;
+    }
+
+    [data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-s45abioj-1"],
+    [data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-s45abioj-1"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeIn;
+    }</style>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <input id="chat-message-input" type="text" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
-    <img src="" alt="">
-    {{ room_name|json_script:"room-name" }}
-    <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/chat/'
-            + roomName
-            + '/'
-        );
-
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            {#document.querySelector('#chat-log').value += (data.message + '\n');#}
-            document.querySelector('#chat-log').value = data.message;
-            document.querySelector('img').src = "data:image/png;base64," + data.frame;
-        };
-
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
-
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.key === 'Enter') {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
-
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
-        };
-    </script>
+<header class="container navbar mx-auto 1080p:max-w-screen-2xl">
+    <nav class="flex-1"><a href="/" class="btn btn-ghost gap-0 text-lg md:text-2xl"><span>AI</span><span
+            class="text-error">SW</span></a></nav>
+    <div class="flex-none"><select name="theme" id="theme" class="select"
+                                   data-astro-transition-persist="astro-isanpx53-2">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select></div>
+</header>
+<main class="container mx-auto p-4">
+    <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4 lg:grid lg:grid-cols-5">
+            <div class="col-span-3 aspect-video overflow-hidden rounded-lg bg-base-300"><img
+                    src="/static/placeholder.ab3dc004.jpg" id="main-img" class="image-full h-full w-full"
+                    data-astro-transition-scope="astro-s45abioj-1"></div>
+            <div class="col-span-2 grid gap-4"><textarea id="chat-log" readonly
+                                                         class="textarea textarea-bordered min-h-[16rem] w-full resize-none lg:min-h-0"></textarea>
+                <div class="flex flex-col gap-4"><input type="text" id="chat-message-input" placeholder="Sent text"
+                                                        class="input input-bordered flex-1">
+                    <div class="flex justify-end gap-2">
+                        <button id="chat-clear" class="btn btn-outline">Clear</button>
+                        <input id="chat-message-submit" type="button" value="Send" class="btn btn-primary btn-outline">
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ room_name|json_script:"room-name" }}
+    </div>
+</main>
 </body>
 </html>

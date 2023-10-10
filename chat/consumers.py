@@ -1,8 +1,9 @@
-# chat/consumers.py
+# cctv/consumers.py
 import json
 
 from channels.generic.websocket import WebsocketConsumer
 from . import camera
+from .models import ObjectDetection
 
 
 # websocket 연결부터 종료까지 수행할 일이 담긴 클래스
@@ -22,7 +23,8 @@ class ChatConsumer(WebsocketConsumer):
         # 무제한 전송시 연결이 끊겼다가 다시 들어오면 연결이 안되는 상황을 막기 위함임
         for i in range(100):
             frame, labels = self.video_camera.get_frame()
-            self.send(text_data=json.dumps({"message": labels,
-                                            "frame": frame}))
-
+            self.send(text_data=json.dumps({"message": labels,"frame": frame}))
+            objectDectection = ObjectDetection();
+            objectDectection.log = labels
+            objectDectection.save()
             print("전송")

@@ -1,9 +1,14 @@
 from django.shortcuts import render
 
+
 # Create your views here.
 
 def index(request):
     return render(request, "chat/index.html")
+
+
+def cctv(request):
+    return render(request, "chat/cctv.html")
 
 
 def room(request, room_name):

@@ -1,4 +1,4 @@
-# Django_object_detection_server/asgi.py
+# config/asgi.py
 import os
 
 from channels.auth import AuthMiddlewareStack
@@ -8,7 +8,7 @@ from django.core.asgi import get_asgi_application
 
 from chat.routing import websocket_urlpatterns
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Django_object_detection_server.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 # Initialize Django ASGI application early to ensure the AppRegistry
 # is populated before importing code that may import ORM models.
 django_asgi_app = get_asgi_application()
