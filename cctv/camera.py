@@ -37,20 +37,20 @@ class VideoCamera(object):
 
         # 탐지 객체 라벨(객체 이름, 신뢰도)
         labels = [
-            f"{self.model.model.names[class_id]} {confidence:0.2f}"
-            for _, _, confidence, class_id, _
+            f"{self.model.model.names[class_id]}"
+            for _, _, _, class_id, _
             in detections
         ]
 
         # 탐지 객체 로그
-        print("[camera.py log]",  "detected: " ,labels)
+        print("[camera.py log]",  "detected: " ,type(labels))
 
         # 이미지에 바운딩 박스 생성
         frame = self.box_annotator.annotate(scene=frame, detections=detections, labels=labels)
 
         _, jpeg = cv2.imencode('.jpg', frame)
         frame = base64.b64encode(jpeg).decode('utf-8')
-        labels = ' '.join(str(s) for s in labels)
+        # labels = ' '.join(str(s) for s in labels) # labels를 문자열로 바꿔줌(테스트용)
         return frame, labels
         # return jpeg.tobytes()
 

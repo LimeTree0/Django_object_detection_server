@@ -1,4 +1,4 @@
-# chat/urls.py
+# cctv/urls.py
 from django.urls import path
 
 from . import views
