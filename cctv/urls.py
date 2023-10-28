@@ -8,4 +8,5 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("cctv/", views.cctv, name="cctv"),
     path("cctv/<str:room_name>/", views.room, name="room"),
+path("statistics", views.statistics, name="statistics"),
 ]

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>로그 페이지입니다</h1>
+
+        {#json으로 파싱하면서 더 이상 작동 안함#}
+        <table>
+        {% for log in loglist %}
+            <ul>
+                <li>{{log.log}}</li>
+                <li>{{log.time|date:'Y-m-d H:i'}}</li>
+                <li>{{log.location}}</li>
+            </ul>
+        {% endfor %}
+        </table>
+
+        <script type="text/javascript">
+            // json 형식으로 db 데이터 받음
+            var log = {{ loglist|safe }};
+
+            // 다음과 같은 방식으로 접근 가능(log[index]["fields"].databaseAttribute)
+            // index는 log 배열의 인덱스이다
+            // json은 model, pk, fields로 나누어진다.
+            // fields는 json의 fields이다.(fileds 안에 실제 데이터가 들어가 있음)
+            // databaseAttribute는 실제 데이터베이스에 있는 속성이다.
+            alert(log[0]["fields"].time);
+        </script>
+</body>
+</html>

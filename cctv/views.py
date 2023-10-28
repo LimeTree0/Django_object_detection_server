@@ -1,5 +1,6 @@
 from django.shortcuts import render
-
+from .models import ObjectDetection
+from django.core import serializers
 
 # Create your views here.
 
@@ -13,3 +14,11 @@ def cctv(request):
 
 def room(request, room_name):
     return render(request, "cctv/cctv/room.html", {"room_name": room_name})
+
+
+def statistics(request):
+    loglist = serializers.serialize("json", ObjectDetection.objects.all())
+    context = {
+        "loglist" : loglist
+    }
+    return render(request, "cctv/statistics.html", context)
