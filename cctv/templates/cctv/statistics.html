@@ -7,28 +7,117 @@
 <body>
 <h1>로그 페이지입니다</h1>
 
-        {#json으로 파싱하면서 더 이상 작동 안함#}
-        <table>
-        {% for log in loglist %}
-            <ul>
-                <li>{{log.log}}</li>
-                <li>{{log.time|date:'Y-m-d H:i'}}</li>
-                <li>{{log.location}}</li>
-            </ul>
-        {% endfor %}
-        </table>
+{#json으로 파싱하면서 더 이상 작동 안함#}
+<table>
+{#    {% for log in loglist %}#}
+{#        <ul>#}
+{#            <li>{{ log.log }}</li>#}
+{#            <li>{{ log.time|date:'Y-m-d H:i' }}</li>#}
+{#            <li>{{ log.location }}</li>#}
+{#        </ul>#}
+{#    {% endfor %}#}
+{#    막대 그래프 차트#}
+    <canvas id="ObjectStickChart"></canvas>
+    <canvas id="ObjectLineChart"></canvas>
+</table>
 
-        <script type="text/javascript">
-            // json 형식으로 db 데이터 받음
-            // 템플릿 관련 코드로 수정하지 말 것(수정시 db 데이터 접근 불가)
-            var log = {{ loglist|safe }};
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+    // json 형식으로 db 데이터 받음
+    // 템플릿 관련 코드로 수정하지 말 것(수정시 db 데이터 접근 불가)
+    var log = {{ loglist|safe }};
 
-            // 다음과 같은 방식으로 접근 가능(log[index]["fields"].databaseAttribute)
-            // index는 log 배열의 인덱스이다
-            // json은 model, pk, fields로 나누어진다.
-            // fields는 json의 fields이다.(fileds 안에 실제 데이터가 들어가 있음)
-            // databaseAttribute는 실제 데이터베이스에 있는 속성이다.
-            alert(log[0]["fields"].time);
-        </script>
+    // 다음과 같은 방식으로 접근 가능(log[index]["fields"].databaseAttribute)
+    // index는 log 배열의 인덱스이다
+    // json은 model, pk, fields로 나누어진다.
+    // fields는 json의 fields이다.(fileds 안에 실제 데이터가 들어가 있음)
+    // databaseAttribute는 실제 데이터베이스에 있는 속성이다.
+
+
+    // 막대 그래프 생성 스크립트
+    const ctx = document.getElementById('ObjectStickChart');
+
+    // 탐지 객체 저장 딕셔너리
+    var objectDict = {};
+
+    // log로 부터 탐지 객체 로그 파싱 후 objectDict에 저장
+    for(var i = 0; i < log.length; i++) {
+        var logtemp = log[i]['fields'].log;
+        var json_log = JSON.parse(logtemp);
+        var keys = Object.keys(json_log);
+        keys.forEach(function (key) {
+            if(objectDict[key] === undefined)
+                objectDict[key] = json_log[key];
+            else {
+                objectDict[key] += json_log[key];
+                console.log(key + ' ' + objectDict[key]);
+            }
+
+        })
+    }
+
+
+    // 키 set과 data set으로 분리
+    var labels = Object.keys(objectDict);
+    var data = Object.keys(objectDict).map(function (key) { return objectDict[key]; })
+
+
+    // 막대 차트 그리기
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: '탐지 개수',
+                    data: data,
+                    borderWidth: 1,
+                    borderColor: "#3e95cd"
+                },
+                {
+                    label: '탐지 개수',
+                    data: [100, 25, 77, 58, 44, 234],
+                    borderWidth: 1,
+                    borderColor: "#3ee345"
+                }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // 꺽은 선 그래프
+    new Chart(document.getElementById('ObjectLineChart'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: '탐지 개수',
+                    data: data,
+                    borderWidth: 1,
+                    borderColor: "#3e95cd"
+                },
+                {
+                    label: '탐지 개수',
+                    data: [100, 25, 77, 58, 44, 234],
+                    borderWidth: 1,
+                    borderColor: "#3ee345"
+                }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
 </body>
 </html>

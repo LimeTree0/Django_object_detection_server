@@ -21,6 +21,10 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
+
+        detect_time = ""
+        labels = ""
+
         # 무제한 전송을 막기 위해 연결 시간 설정(frame 단위로 설정함)
         # 무제한 전송시 연결이 끊겼다가 다시 들어오면 연결이 안되는 상황을 막기 위함임
         for i in range(100):
@@ -32,15 +36,16 @@ class ChatConsumer(WebsocketConsumer):
             labels = dict(collections.Counter(labels))
             labels = json.dumps(labels)
             self.send(text_data=json.dumps({
-                "message": labels,
-                "detect_time": detect_time,
-                "frame": frame}))
+                                "message": labels,
+                                "detect_time": detect_time,
+                                "frame": frame}))
             print("전송")
-            #탐지 내용 DB에 저장
-            objectDectection = ObjectDetection()
-            objectDectection.time = detect_time
-            objectDectection.log = labels
-            objectDectection.location = "서울"
-            objectDectection.save()
-            print("DB 저장")
+
+        # 탐지 내용 DB에 저장
+        objectDectection = ObjectDetection()
+        objectDectection.time = detect_time
+        objectDectection.log = labels
+        objectDectection.location = "서울"
+        objectDectection.save()
+        print("DB 저장")
 

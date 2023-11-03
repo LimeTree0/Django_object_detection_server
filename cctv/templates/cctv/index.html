@@ -26,9 +26,9 @@
     <meta name="description" content="Astro description">
     <meta name="viewport" content="width=device-width">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <meta name="generator" content="Astro v3.3.4">
+    <meta name="generator" content="Astro v3.4.3">
     <title>Home</title>
-    <link rel="stylesheet" href="/static/index.7ef8b5da.css"/>
+    <link rel="stylesheet" href="/static/index.016b7d75.css"/>
     <style>@keyframes astroFadeInOut {
                0% {
                    opacity: 1
@@ -84,7 +84,7 @@
         }
     }
     </style>
-    <script type="module" src="/static/hoisted.5157f620.js"></script>
+    <script type="module" src="/static/hoisted.382ac49c.js"></script>
     <style>[data-astro-transition-scope="astro-pduda75b-1"] {
         view-transition-name: main-cctv-image;
     }
@@ -150,7 +150,137 @@
         animation-fill-mode: both;
         animation-name: astroFadeIn;
     }</style>
-    <style>[data-astro-transition-scope="astro-zilu5vqt-2"] {
+    <style>[data-astro-transition-scope="astro-ptz2u25w-2"] {
+        view-transition-name: cctv-title;
+    }
+
+    @layer astro {
+        ::view-transition-old(cctv-title) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeOut;
+        }
+
+        ::view-transition-new(cctv-title) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeIn;
+        }
+
+        [data-astro-transition=back]::view-transition-old(cctv-title) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeOut;
+        }
+
+        [data-astro-transition=back]::view-transition-new(cctv-title) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeIn;
+        }
+    }
+
+    [data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-ptz2u25w-2"],
+    [data-astro-transition-fallback="old"][data-astro-transition-scope="astro-ptz2u25w-2"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeOut;
+    }
+
+    [data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-ptz2u25w-2"],
+    [data-astro-transition-fallback="new"][data-astro-transition-scope="astro-ptz2u25w-2"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeIn;
+    }
+
+    [data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-ptz2u25w-2"],
+    [data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-ptz2u25w-2"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeOut;
+    }
+
+    [data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-ptz2u25w-2"],
+    [data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-ptz2u25w-2"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeIn;
+    }</style>
+    <style>[data-astro-transition-scope="astro-doyjmnof-3"] {
+        view-transition-name: cctv-description;
+    }
+
+    @layer astro {
+        ::view-transition-old(cctv-description) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeOut;
+        }
+
+        ::view-transition-new(cctv-description) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeIn;
+        }
+
+        [data-astro-transition=back]::view-transition-old(cctv-description) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeOut;
+        }
+
+        [data-astro-transition=back]::view-transition-new(cctv-description) {
+            animation-duration: 180ms;
+            animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+            animation-fill-mode: both;
+            animation-name: astroFadeIn;
+        }
+    }
+
+    [data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-doyjmnof-3"],
+    [data-astro-transition-fallback="old"][data-astro-transition-scope="astro-doyjmnof-3"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeOut;
+    }
+
+    [data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-doyjmnof-3"],
+    [data-astro-transition-fallback="new"][data-astro-transition-scope="astro-doyjmnof-3"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeIn;
+    }
+
+    [data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-doyjmnof-3"],
+    [data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-doyjmnof-3"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeOut;
+    }
+
+    [data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-doyjmnof-3"],
+    [data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-doyjmnof-3"] {
+        animation-duration: 180ms;
+        animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        animation-fill-mode: both;
+        animation-name: astroFadeIn;
+    }</style>
+    <style>[data-astro-transition-scope="astro-zilu5vqt-4"] {
         view-transition-name: main-video-image;
     }
 
@@ -184,32 +314,32 @@
         }
     }
 
-    [data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-zilu5vqt-2"],
-    [data-astro-transition-fallback="old"][data-astro-transition-scope="astro-zilu5vqt-2"] {
+    [data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-zilu5vqt-4"],
+    [data-astro-transition-fallback="old"][data-astro-transition-scope="astro-zilu5vqt-4"] {
         animation-duration: 180ms;
         animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
         animation-fill-mode: both;
         animation-name: astroFadeOut;
     }
 
-    [data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-zilu5vqt-2"],
-    [data-astro-transition-fallback="new"][data-astro-transition-scope="astro-zilu5vqt-2"] {
+    [data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-zilu5vqt-4"],
+    [data-astro-transition-fallback="new"][data-astro-transition-scope="astro-zilu5vqt-4"] {
         animation-duration: 180ms;
         animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
         animation-fill-mode: both;
         animation-name: astroFadeIn;
     }
 
-    [data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-zilu5vqt-2"],
-    [data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-zilu5vqt-2"] {
+    [data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-zilu5vqt-4"],
+    [data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-zilu5vqt-4"] {
         animation-duration: 180ms;
         animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
         animation-fill-mode: both;
         animation-name: astroFadeOut;
     }
 
-    [data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-zilu5vqt-2"],
-    [data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-zilu5vqt-2"] {
+    [data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-zilu5vqt-4"],
+    [data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-zilu5vqt-4"] {
         animation-duration: 180ms;
         animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
         animation-fill-mode: both;
@@ -219,7 +349,7 @@
 <body>
 <div id="app" class="flex h-screen w-screen flex-col">
     <header class="flex-0 container navbar mx-auto 1080p:max-w-screen-2xl">
-        <nav class="flex-1"><a href="/chat/" class="btn btn-ghost gap-0 text-lg md:text-2xl"><span>AI</span><span
+        <nav class="flex-1"><a href="/" class="btn btn-ghost gap-0 text-lg md:text-2xl"><span>AI</span><span
                 class="text-error">SW</span></a></nav>
         <div class="flex-none"><!-- <select name="theme" id="theme" class="select" transition:persist>
           <option value="light">Light</option>
@@ -235,8 +365,9 @@
                         data-astro-transition-scope="astro-pduda75b-1" width="6240" height="4160" loading="lazy"
                         decoding="async">
                     <div class="flex w-full flex-col gap-2 text-left md:gap-4"><h2
-                            class="text-3xl font-bold tracking-wider md:text-5xl">CCTV</h2>
-                        <p class="text-sm md:w-96 md:text-base">
+                            class="text-3xl font-bold tracking-wider md:text-5xl"
+                            data-astro-transition-scope="astro-ptz2u25w-2">CCTV</h2>
+                        <p class="text-sm md:w-96 md:text-base" data-astro-transition-scope="astro-doyjmnof-3">
                             Get object detected footage from CCTV
                         </p></div>
                 </div>
@@ -244,9 +375,9 @@
                 <div class="divider"></div>
                 <a href="/video" class="btn btn-ghost hero h-full">
                     <div class="hero-content flex-col md:flex-row-reverse md:gap-12"><img
-                            src="/static/main-video.50832854_ZT3867.webp" alt="Video Image"
+                            src="/static/main-video.50832854_1aSmkw.webp" alt="Video Image"
                             class="aspect-video w-full rounded-lg shadow-md md:w-96"
-                            data-astro-transition-scope="astro-zilu5vqt-2" width="5760" height="3240" loading="lazy"
+                            data-astro-transition-scope="astro-zilu5vqt-4" width="5760" height="3240" loading="lazy"
                             decoding="async">
                         <div class="flex w-full flex-col gap-2 text-left md:gap-4 md:text-right"><h2
                                 class="text-3xl font-bold tracking-wider md:text-5xl">Video</h2>
@@ -256,6 +387,19 @@
                     </div>
                 </a>
                 <div class="divider"></div>
+                <a href="/statistics" class="btn btn-ghost hero h-full">
+                    <div class="hero-content flex-col md:flex-row-reverse md:gap-12"><img
+                            src="/static/main-video.50832854_1aSmkw.webp" alt="Video Image"
+                            class="aspect-video w-full rounded-lg shadow-md md:w-96"
+                            data-astro-transition-scope="astro-zilu5vqt-4" width="5760" height="3240" loading="lazy"
+                            decoding="async">
+                        <div class="flex w-full flex-col gap-2 text-left md:gap-4 md:text-right"><h2
+                                class="text-3xl font-bold tracking-wider md:text-5xl">Statistic</h2>
+                            <p class="text-sm md:w-96 md:text-base">
+                                Analyze Statistic
+                            </p></div>
+                    </div>
+                </a>
             </div>
         </main>
     </div>

@@ -12,8 +12,9 @@ def cctv(request):
     return render(request, "cctv/cctv.html")
 
 
-def room(request, room_name):
-    return render(request, "cctv/cctv/room.html", {"room_name": room_name})
+def room(request):
+    cctvName = request.GET.get('name', None)
+    return render(request, "cctv/cctv/room.html", {"room_name": cctvName})
 
 
 def statistics(request):

@@ -24,9 +24,9 @@
     <meta name="description" content="Astro description">
     <meta name="viewport" content="width=device-width">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <meta name="generator" content="Astro v3.3.4">
+    <meta name="generator" content="Astro v3.4.3">
     <title>Room</title>
-    <link rel="stylesheet" href="/static/index.7ef8b5da.css"/>
+    <link rel="stylesheet" href="/static/index.016b7d75.css"/>
     <style>@keyframes astroFadeInOut {
                0% {
                    opacity: 1
@@ -82,7 +82,7 @@
         }
     }
     </style>
-    <script type="module" src="/static/hoisted.d0c69bd8.js"></script>
+    <script type="module" src="/static/hoisted.6731acff.js"></script>
     <style>[data-astro-transition-scope="astro-4ryzswel-1"] {
         view-transition-name: main-cctv-image;
     }
@@ -152,7 +152,7 @@
 <body>
 <div id="app" class="flex h-screen w-screen flex-col">
     <header class="flex-0 container navbar mx-auto 1080p:max-w-screen-2xl">
-        <nav class="flex-1"><a href="/chat/" class="btn btn-ghost gap-0 text-lg md:text-2xl"><span>AI</span><span
+        <nav class="flex-1"><a href="/" class="btn btn-ghost gap-0 text-lg md:text-2xl"><span>AI</span><span
                 class="text-error">SW</span></a></nav>
         <div class="flex-none"><!-- <select name="theme" id="theme" class="select" transition:persist>
           <option value="light">Light</option>
@@ -160,36 +160,37 @@
         </select> --></div>
     </header>
     <div class="flex-1">
-        <main class="container mx-auto h-full p-4">
+        <main class="container mx-auto flex h-full justify-center p-8">
             <div class="flex h-full flex-col gap-4">
                 <div class="flex flex-col gap-4 lg:grid lg:grid-cols-5">
                     <div class="col-span-3 aspect-video overflow-hidden rounded-lg bg-base-300"><img
                             src="/static/placeholder.ab3dc004.jpg" id="main-img" class="image-full h-full w-full"
-                            data-astro-transition-scope="astro-4ryzswel-1"></div>
-                    <div class="col-span-2 grid gap-4"><textarea id="chat-log" readonly
-                                                                 class="textarea textarea-bordered min-h-[16rem] w-full resize-none lg:min-h-0"></textarea>
-                        <div class="flex flex-col gap-4"><input type="text" id="chat-message-input"
-                                                                placeholder="Sent text"
-                                                                class="input input-bordered flex-1">
-                            <div class="flex justify-end gap-2">
-                                <button id="chat-clear" class="btn btn-outline">Clear</button>
-                                <input id="chat-message-submit" type="button" value="Send"
-                                       class="btn btn-primary btn-outline"></div>
+                            data-astro-transition-scope="astro-4ryzswel-1"></div><!-- statistics -->
+                    <div class="col-span-2 w-full">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex w-fit flex-col gap-0"><h3 class="text-center text-xl">Detected Object</h3>
+                                <div class="w-full">
+                                    <canvas id="object-count"></canvas>
+                                </div>
+                            </div>
+                            <div class="flex w-fit flex-col gap-0"><h3 class="text-center text-xl">A</h3>
+                                <div class="w-[360px]">
+                                    <canvas id="weekly-accidents"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div><!-- statistics -->
-                <div class="container h-full">
-                    <div class="flex gap-4">
-                        <div class="flex w-fit flex-col gap-0"><h3 class="text-center text-xl">Detected Object</h3>
-                            <div class="h-[360px] w-[480px]">
-                                <canvas id="object-count"></canvas>
-                            </div>
-                        </div>
-                        <div class="flex w-fit flex-col gap-0"><h3 class="">A</h3>
-                            <div class="h-[360px] w-[480px]">
-                                <canvas id="weekly-accidents"></canvas>
-                            </div>
-                        </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="grid flex-1 gap-4 md:min-h-[16rem] md:grid-cols-2"><textarea id="cctv-log" readonly
+                                                                                             class="textarea textarea-bordered h-full min-h-[16rem] resize-none md:min-h-0"></textarea><textarea
+                            id="accident-log"
+                            class="textarea textarea-bordered h-full min-h-[16rem] resize-none md:min-h-0"></textarea>
+                    </div>
+                    <div class="flex flex-col gap-4"><input type="text" id="cctv-message-input" placeholder="Sent text"
+                                                            class="sr-only">
+                        <div class="flex justify-end gap-2"><input id="cctv-message-submit" type="button" value="Send"
+                                                                   class="btn btn-primary btn-outline"></div>
                     </div>
                 </div>
             </div>
