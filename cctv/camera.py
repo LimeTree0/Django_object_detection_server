@@ -3,13 +3,17 @@ import threading
 import base64
 from ultralytics import YOLO
 import supervision as sv
-
+import pafy
 
 # 객체 탐지 및 카메라 설정 관련 코드
 class VideoCamera(object):
     def __init__(self):
         # 카메라 선택(ip 주소를 넣을 수도 있음)
         src = 0  # "rtsp://172.30.1.6:8080/h264.sdp"
+        # 유튜브 영상 사용시
+        # video = pafy.new(src)
+        # best = video.getbestvideo(preftype='webm')
+        # src = best.url
         self.video = cv2.VideoCapture(src)
         (self.grabbed, self.frame) = self.video.read()
 
@@ -43,7 +47,7 @@ class VideoCamera(object):
         ]
 
         # 탐지 객체 로그
-        print("[camera.py log]",  "detected: " ,type(labels))
+        print("[camera.py log]",  "detected: " ,labels)
 
         # 이미지에 바운딩 박스 생성
         frame = self.box_annotator.annotate(scene=frame, detections=detections, labels=labels)
