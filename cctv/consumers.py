@@ -5,7 +5,7 @@ import time
 
 from channels.generic.websocket import WebsocketConsumer
 from . import camera
-from .models import ObjectDetection
+from .models import ObjectDetection, AccidentDetection
 
 
 # websocket 연결부터 종료까지 수행할 일이 담긴 클래스
@@ -29,23 +29,35 @@ class ChatConsumer(WebsocketConsumer):
         # 무제한 전송시 연결이 끊겼다가 다시 들어오면 연결이 안되는 상황을 막기 위함임
         for i in range(100):
             # 카메라로부터 프레임과 탐지 객체 받아오기
-            frame, labels = self.video_camera.get_frame()
+            frame, labels_object, labels_accident = self.video_camera.get_frame()
             #탐지 시간
             detect_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
             # 탐지 객체 개수 카운트 및 json 파이 전송
-            labels = dict(collections.Counter(labels))
-            labels = json.dumps(labels)
+            labels_object = dict(collections.Counter(labels_object))
+            labels_object = json.dumps(labels_object)
+            labels_accident = dict(collections.Counter(labels_accident))
+            labels_accident = json.dumps(labels_accident)
             self.send(text_data=json.dumps({
-                                "message": labels,
+                                "object_detection": labels_object,
+                                "accident_detection": labels_accident,
                                 "detect_time": detect_time,
                                 "frame": frame}))
             print("전송")
 
         # 탐지 내용 DB에 저장
+        # 객체 탐지 내용
         objectDectection = ObjectDetection()
         objectDectection.time = detect_time
-        objectDectection.log = labels
+        objectDectection.log = labels_object
         objectDectection.location = "서울"
         objectDectection.save()
+
+        accidentDetection = AccidentDetection()
+        accidentDetection.time = detect_time
+        accidentDetection.log = labels_accident
+        accidentDetection.location = "서울"
+        accidentDetection.save()
         print("DB 저장")
+
+        self.send(text_data="end")
 

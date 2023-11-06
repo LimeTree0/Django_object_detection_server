@@ -18,8 +18,10 @@ class VideoCamera(object):
         (self.grabbed, self.frame) = self.video.read()
 
         # 모델 선택
-        self.model = YOLO("yolov8s.pt")
-        self.model.to('cuda')
+        self.model_object = YOLO("yolov8s.pt")
+        self.model_object.to('cuda')
+        self.model_accident = YOLO("accident.pt")
+        self.model_accident.to('cuda')
 
         # 이미지에 나타낼 바운딩 박스 설정
         self.box_annotator = sv.BoxAnnotator(
@@ -36,26 +38,35 @@ class VideoCamera(object):
     def get_frame(self):
         frame = self.frame
         # 객체 탐지 및 결과 생성
-        result = self.model(frame)[0]
-        detections = sv.Detections.from_yolov8(result)
+        result_object = self.model_object(frame)[0]
+        detections_object = sv.Detections.from_yolov8(result_object)
+        result_accident = self.model_accident(frame)[0]
+        detections_accident = sv.Detections.from_yolov8(result_accident)
 
         # 탐지 객체 라벨(객체 이름, 신뢰도)
-        labels = [
-            f"{self.model.model.names[class_id]}"
+        labels_object = [
+            f"{self.model_object.model.names[class_id]}"
             for _, _, _, class_id, _
-            in detections
+            in detections_object
+        ]
+
+        labels_accident = [
+            f"{self.model_accident.model.names[class_id]}"
+            for _, _, _, class_id, _
+            in detections_accident
         ]
 
         # 탐지 객체 로그
-        print("[camera.py log]",  "detected: " ,labels)
+        print("[camera.py log_object]", "detected: ", labels_object)
+        print("[camera.py log_accident]",  "detected: " ,labels_accident)
 
         # 이미지에 바운딩 박스 생성
-        frame = self.box_annotator.annotate(scene=frame, detections=detections, labels=labels)
+        frame = self.box_annotator.annotate(scene=frame, detections=detections_object, labels=labels_object)
 
         _, jpeg = cv2.imencode('.jpg', frame)
         frame = base64.b64encode(jpeg).decode('utf-8')
         # labels = ' '.join(str(s) for s in labels) # labels를 문자열로 바꿔줌(테스트용)
-        return frame, labels
+        return frame, labels_object, labels_accident
         # return jpeg.tobytes()
 
     def update(self):

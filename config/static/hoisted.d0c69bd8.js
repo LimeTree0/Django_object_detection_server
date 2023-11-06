@@ -8451,8 +8451,8 @@ document.querySelector("#chat-clear").onclick = function () {
 const Dh = 'room',
     Ei = new WebSocket("ws://" + window.location.host + "/ws/cctv/" + Dh + "/");
 Ei.onmessage = function (i) {
-    const t = JSON.parse(i.data);
     console.log(t)
+    const t = JSON.parse(i.data);
     document.querySelector("#chat-log").value = t.message, Ch.src = "data:image/png;base64," + t.frame
 };
 Ei.onclose = function (i) {
