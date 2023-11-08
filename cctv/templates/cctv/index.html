@@ -348,6 +348,7 @@
 </head>
 <body>
 <div>
+{#    유저의 권한에 따라 표시가 달라짐(디자인 이외에는 수정하지 말 것)#}
     {% if user.is_authenticated %}
         <h3><a href="/accounts/logout">로그아웃</a></h3>
         {% if user.is_superuser %}
