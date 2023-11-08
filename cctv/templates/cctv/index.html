@@ -347,6 +347,17 @@
     }</style>
 </head>
 <body>
+<div>
+    {% if user.is_authenticated %}
+        <h3><a href="/accounts/logout">로그아웃</a></h3>
+        {% if user.is_superuser %}
+            <h3><a href="/accounts/signup">회원가입</a></h3>
+        {% endif %}
+    {% else %}
+        <h3><a href="/accounts/login">로그인</a></h3>
+    {% endif %}
+
+</div>
 <div id="app" class="flex h-screen w-screen flex-col">
     <header class="flex-0 container navbar mx-auto 1080p:max-w-screen-2xl">
         <nav class="flex-1"><a href="/" class="btn btn-ghost gap-0 text-lg md:text-2xl"><span>AI</span><span

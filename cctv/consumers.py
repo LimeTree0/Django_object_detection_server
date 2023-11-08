@@ -12,15 +12,20 @@ from .models import ObjectDetection, AccidentDetection
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.accept()
-        self.video_camera = camera.VideoCamera()
-        print(self.scope)
+
+
+        cctvAddress = self.scope['path'].split('/')[-2]
+        print(cctvAddress)
+        cctvAddress = cctvAddress[4:]
+
+        self.video_camera = camera.VideoCamera(int(cctvAddress) - 1)
 
     def disconnect(self, close_code):
         pass
 
     def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json["message"]
+        # text_data_json = json.loads(text_data)
+        # message = text_data_json["message"]
 
         detect_time = ""
         labels = ""

@@ -34,6 +34,9 @@
 <script type="text/javascript">
 
     // ajax를 이용해 로그 데이터를 받는다. 받은 데이터는
+
+    var lineChart = null;
+
     function drawGraph() {
     function getLog() {
         var log = "";
@@ -113,7 +116,8 @@
     const ctx = document.getElementById('ObjectStickChart');
 
     // 막대 차트 그리기
-    var a = new Chart(ctx, {
+        if(lineChart !== null) lineChart.destroy();
+    lineChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,

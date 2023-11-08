@@ -7,9 +7,9 @@ import pafy
 
 # 객체 탐지 및 카메라 설정 관련 코드
 class VideoCamera(object):
-    def __init__(self):
+    def __init__(self, src = 0):  #src: 카메라 주소 "rtsp://172.30.1.6:8080/h264.sdp"
         # 카메라 선택(ip 주소를 넣을 수도 있음)
-        src = 0  # "rtsp://172.30.1.6:8080/h264.sdp"
+
         # 유튜브 영상 사용시
         # video = pafy.new(src)
         # best = video.getbestvideo(preftype='webm')

@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><!-- <script>
+      document.addEventListener("astro:page-load", () => {
+        const themeSelect = document.getElementById("theme");
+
+        if (localStorage.getItem("theme") === null) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+
+        themeSelect.addEventListener("change", (e) => {
+          const theme = e.target.value;
+          document.documentElement.setAttribute("data-theme", theme);
+          localStorage.setItem("theme", theme);
+        });
+      });
+
+      document.addEventListener("astro:after-swap", () => {
+        const theme = localStorage.getItem("theme");
+        document.documentElement.setAttribute("data-theme", theme);
+      });
+    </script> --><meta charset="UTF-8"><meta name="description" content="Astro description"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v3.4.3"><title></title><link rel="stylesheet" href="/static/index.d5f1a43f.css" /><script type="module" src="/static/hoisted.dd79537e.js"></script></head><body><div id="app" class="flex h-screen max-w-screen flex-col"><header class="flex-0 container navbar mx-auto 1080p:max-w-screen-2xl"><nav class="flex-1"><a href="/" class="btn btn-ghost gap-0 text-lg md:text-2xl"><span>AI</span><span class="text-error">SW</span></a></nav><nav class="flex-none"><div class="flex items-center justify-center gap-4"><div class="flex gap-2 md:gap-4"><a id="return-link" href="" class="btn btn-ghost flex items-center gap-[6px] capitalize"><span class="text-lg md:text-xl">Return to CCTV</span><span class="text-xl text-primary md:text-2xl"><svg data-hk="0-0" fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="1em" width="1em" style="overflow:visible;color:currentcolor;"><path d="M18.618 7.462 6.403 2.085a1.007 1.007 0 0 0-.77-.016 1.002 1.002 0 0 0-.552.537l-3 7a1 1 0 0 0 .525 1.313L9.563 13.9 8.323 17H4v-3H2v8h2v-3h4.323c.823 0 1.552-.494 1.856-1.258l1.222-3.054 3.419 1.465a1 1 0 0 0 1.311-.518l3-6.857a1 1 0 0 0-.513-1.316zm1.312 8.91-1.858-.742 1.998-5 1.858.741z"></path></svg></span></a><div class="flex items-center"><label class="btn btn-ghost drawer-button"><input type="checkbox" class="drawer-toggle"><span class="text-lg md:text-xl"><svg data-hk="0-0" fill="currentColor" stroke-width="0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" height="1em" width="1em" style="overflow:visible;color:currentcolor;"><path d="M3.5 3a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zm0 3a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM3 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"></path><path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm12-1v14h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zm-1 0H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h9V1z"></path></svg></span></label></div></div><!-- <select name="theme" id="theme" class="select" transition:persist>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select> --></div></nav></header><div class="flex-1"><main class="container mx-auto h-full p-8"><div class="drawer lg:drawer-open"><input id="drawer-toggle" type="checkbox" class="drawer-toggle"><div class="drawer-content"><div class="grid h-full w-full grid-cols-2"><div class="col-span-2"><h1 class="text-4xl font-bold">Daily Log</h1><canvas id="daily-log"></canvas></div><div><h1 class="text-4xl font-bold">Hourly stat</h1><canvas id="traffic-hourly"></canvas></div><div><h1 class="text-4xl font-bold">Hourly Accidents</h1><canvas id="accident-hourly"></canvas></div></div></div><div class="drawer-side"><label for="drawer-toggle" aria-label="close sidebar" class="drawer-overlay"></label><ul class="menu"><li>item 1234567</li><li>item 2</li></ul></div></div></main><script>
+    const roomName = new URLSearchParams(window.location.search).get("name");
+
+    document.querySelector("#return-link").href = `/cctv/room?name=${roomName}`;
+
+    // let log = {{ loglist|safe }};
+    let log = {
+      fields: {
+        log: '{"a": 1, "b": 2, "c": 3}',
+      },
+    };
+    let objects;
+
+    log.forEach((element) => {
+      const json = JSON.parse(element["fields"].log);
+
+      Object.keys(json).forEach((key) => {
+        if (objects[key] === undefined) {
+          objects[key] = json[key];
+        } else {
+          objects[key] += json[key];
+        }
+      });
+    });
+
+    const labels = Object.keys(objects);
+    const data = Object.values(objects);
+  </script></div></div></body></html>
