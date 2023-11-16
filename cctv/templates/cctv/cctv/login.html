@@ -1,4 +1,8 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><!-- <script>
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta name="astro-view-transitions-enabled" content="true">
+    <meta name="astro-view-transitions-fallback" content="animate"><!-- <script>
       document.addEventListener("astro:page-load", () => {
         const themeSelect = document.getElementById("theme");
 
@@ -17,7 +21,50 @@
         const theme = localStorage.getItem("theme");
         document.documentElement.setAttribute("data-theme", theme);
       });
-    </script> --><meta charset="UTF-8"><meta name="description" content="Astro description"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v3.4.3"><title>login</title><link rel="stylesheet" href="/static/index.d5f1a43f.css" /><script type="module" src="/static/hoisted.382ac49c.js"></script></head><body><div id="app" class="flex h-screen max-w-screen flex-col"><header class="flex-0 container navbar mx-auto 1080p:max-w-screen-2xl"><nav class="flex-1"><a href="/" class="btn btn-ghost gap-0 text-lg md:text-2xl"><span>AI</span><span class="text-error">SW</span></a></nav><nav class="flex-none"><div class="flex items-center justify-center gap-4"><!-- <select name="theme" id="theme" class="select" transition:persist>
+    </script> -->
+    <meta charset="UTF-8">
+    <meta name="description" content="Astro description">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="generator" content="Astro v3.5.4">
+    <title>login</title>
+    <link rel="stylesheet" href="/static/login.67f6964b.css"/>
+    <script type="module" src="/static/hoisted.17158c12.js"></script>
+</head>
+<body>
+<div id="app" class="flex h-screen max-w-screen flex-col">
+    <header class="flex-0 container navbar mx-auto 1080p:max-w-screen-2xl">
+        <nav class="flex-1"><a href="/" class="btn btn-ghost gap-0 text-lg md:text-2xl"><span>AI</span><span
+                class="text-error">SW</span></a></nav>
+        <nav class="flex-none">
+            <div class="flex items-center justify-center gap-4">  <!-- <select name="theme" id="theme" class="select" transition:persist>
             <option value="light">Light</option>
             <option value="dark">Dark</option>
-          </select> --></div></nav></header><div class="flex-1"><main class="container mx-auto h-full md:p-2"><div class="mt-12 flex w-full flex-col items-center"><form action="" method="post" class="flex w-full flex-col gap-4 p-4 md:max-w-[48rem] md:gap-8 md:p-8 lg:p-16 md:border-2 md:rounded-lg md:shadow-md"><h2 class="text-2xl md:text-4xl font-bold tracking-wide">Login</h2><div class="form-control"><label for="id" class="label"><span class="label-text">ID</span></label><input name="id" id="id" type="text" placeholder="example123" class="input input-bordered w-full lg:input-lg"></div><div class="form-control"><label for="password" class="label"><span class="label-text">Password</span></label><input name="password" id="password" type="password" placeholder="**********" class="input input-bordered w-full lg:input-lg"></div><div class="flex justify-end gap-2 lg:gap-6"><button type="reset" class="btn btn-neutral lg:btn-lg">Reset</button><button type="submit" class="btn btn-primary lg:btn-lg">Login</button></div></form></div></main></div></div></body></html>
+          </select> --> </div>
+        </nav>
+    </header>
+    <div class="flex-1">
+        <main class="container mx-auto h-full md:p-2">
+            <div class="mt-12 flex w-full flex-col items-center">
+                <form action="" method="post"
+                      class="flex w-full flex-col gap-4 p-4 md:max-w-[48rem] md:gap-8 md:p-8 lg:p-16 md:border-2 md:rounded-lg md:shadow-md">
+                    <h2 class="text-2xl md:text-4xl font-bold tracking-wide">Login</h2>
+                    <div class="form-control"><label for="id" class="label"> <span class="label-text">ID</span> </label>
+                        <input name="id" id="id" type="text" placeholder="example123"
+                               class="input input-bordered w-full lg:input-lg"></div>
+                    <div class="form-control"><label for="password" class="label"> <span
+                            class="label-text">Password</span> </label> <input name="password" id="password"
+                                                                               type="password" placeholder="**********"
+                                                                               class="input input-bordered w-full lg:input-lg">
+                    </div>
+                    <div class="flex justify-end gap-2 lg:gap-6">
+                        <button type="reset" class="btn btn-neutral lg:btn-lg">Reset</button>
+                        <button type="submit" class="btn btn-primary lg:btn-lg">Login</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1 @@
+import{c as d,p as t}from"./store.11b9c9bf.js";const[i,a]=d([]),[o,c]=d([]),r=e=>{a(t(s=>{s.push(e)})),i.length>128&&a(t(s=>{s.shift()}))},n=e=>{c(t(s=>{s.push(e)})),o.length>128&&c(t(s=>{s.shift()}))};export{r as a,n as b,o as s};

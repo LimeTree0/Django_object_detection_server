@@ -15,10 +15,7 @@ class ChatConsumer(WebsocketConsumer):
 
 
         cctvAddress = self.scope['path'].split('/')[-2]
-        print(cctvAddress)
-        cctvAddress = cctvAddress[4:]
-
-        self.video_camera = camera.VideoCamera(int(cctvAddress) - 1)
+        self.video_camera = camera.VideoCamera(int(cctvAddress))
 
     def disconnect(self, close_code):
         pass

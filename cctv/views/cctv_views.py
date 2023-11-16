@@ -1,9 +1,7 @@
+#CCTV 페이지 VIEW 파일
+#CCTV 어플리케이션 페이지 컨트롤러
+
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from cctv.models import ObjectDetection
-from django.core import serializers
-import json
-from rest_framework.response import Response
 
 # Create your views here.
 
@@ -29,11 +27,7 @@ def room(request):
 def statistics(request):
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
-    loglist = serializers.serialize("json", ObjectDetection.objects.all())
-    context = {
-        "loglist" : loglist
-    }
-    return render(request, "cctv/statistics.html", context)
+    return render(request, "cctv/statistics.html")
 
 
 def date(request):
@@ -45,16 +39,3 @@ def date(request):
     }
     # return JsonResponse(context)
     return render(request, "cctv/statistics.html", context)
-
-def dateDetail(request):
-    loglist = serializers.serialize("json", ObjectDetection.objects.all())
-    datelog = serializers.serialize("json", ObjectDetection.objects.filter(time__range=[request.GET['dateFrom'], request.GET['dateTo']]))
-    context = {
-        "loglist": loglist,
-        "datelog": datelog
-    }
-
-    print(datelog)
-
-    return HttpResponse(json.dumps(datelog))
-    # return render(request, "cctv/statistics.html", context)

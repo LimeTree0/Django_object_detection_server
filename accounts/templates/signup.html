@@ -1,30 +1,84 @@
-{#계정 생성 html#}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
+    <meta name="astro-view-transitions-enabled" content="true">
+    <meta name="astro-view-transitions-fallback" content="animate"><!-- <script>
+      document.addEventListener("astro:page-load", () => {
+        const themeSelect = document.getElementById("theme");
+
+        if (localStorage.getItem("theme") === null) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+
+        themeSelect.addEventListener("change", (e) => {
+          const theme = e.target.value;
+          document.documentElement.setAttribute("data-theme", theme);
+          localStorage.setItem("theme", theme);
+        });
+      });
+
+      document.addEventListener("astro:after-swap", () => {
+        const theme = localStorage.getItem("theme");
+        document.documentElement.setAttribute("data-theme", theme);
+      });
+    </script> -->
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="description" content="Astro description">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="generator" content="Astro v3.5.4">
+    <title>signup</title>
+    <link rel="stylesheet" href="/static/login.67f6964b.css"/>
+    <script type="module" src="/static/hoisted.17158c12.js"></script>
 </head>
 <body>
-<div>
-    <h1>계정 생성</h1>
-    <form method="POST">
-        {% csrf_token %}
-        아이디: <br>
-        <input name="username" type="text">
-        <br>
-        비밀번호: <br>
-        <input name="password1" type="password">
-        <br>
-        비밀번호 확인: <br>
-        <input name="password2" type="password">
-        <br>
-        이메일: <br>
-        <input name="email" type="email">
-        <br><br>
-        <input type="submit" value="계정 생성">
-    </form>
+<div id="app" class="flex h-screen max-w-screen flex-col">
+    <header class="flex-0 container navbar mx-auto 1080p:max-w-screen-2xl">
+        <nav class="flex-1"><a href="/" class="btn btn-ghost gap-0 text-lg md:text-2xl"><span>AI</span><span
+                class="text-error">SW</span></a></nav>
+        <nav class="flex-none">
+            <div class="flex items-center justify-center gap-4">  <!-- <select name="theme" id="theme" class="select" transition:persist>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select> --> </div>
+        </nav>
+    </header>
+    <div class="flex-1">
+        <div class="h-full bg-base-200">
+            <main class="container mx-auto">
+                <div class="flex justify-center">
+                    <div class="mt-8 max-w-lg rounded-xl border border-base-300 bg-white p-4 shadow-sm sm:p-7">
+                        <div class="text-center"><h1 class="text-2xl font-bold">Craete Account</h1></div>
+                        <div class="mt-7">
+                            <form action="" method="post"><span class="invisible hidden"> {% csrf_token %} </span>
+                                <div class="flex flex-col gap-2">
+                                    <div class="form-control"><label for="name" class="label"> <span class="label-text">Name</span>
+                                    </label> <input type="text" id="name" class="input input-bordered"></div>
+                                    <div class="form-control"><label for="password" class="label"> <span
+                                            class="label-text">Password</span> </label> <input type="password"
+                                                                                               id="password"
+                                                                                               class="input input-bordered">
+                                    </div>
+                                    <div class="form-control"><label for="password-check" class="label"> <span
+                                            class="label-text">Check Password</span> </label> <input type="password"
+                                                                                                     id="password-check"
+                                                                                                     class="input input-bordered">
+                                    </div>
+                                    <div class="form-control"><label for="email" class="label"> <span
+                                            class="label-text">E-Mail</span> </label> <input type="email" id="email"
+                                                                                             class="input input-bordered">
+                                    </div>
+                                </div>
+                                <div class="form-control mt-7">
+                                    <button class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
 </div>
 </body>
 </html>

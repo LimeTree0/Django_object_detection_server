@@ -1,13 +1,13 @@
 # cctv/urls.py
 from django.urls import path
 
-from . import views
+from .views import cctv_views, cctv_API_views
 
 urlpatterns = [
-    path("", views.index, name="index"),
-    path("cctv/", views.cctv, name="cctv"),
-    path("cctv/room/", views.room, name="room"),
-    path("statistics/", views.statistics, name="statistics"),
-    path("statistics/date", views.date, name="date"),
-    path("statistics/dateDetail", views.dateDetail, name="dateDetail"),
+    path("", cctv_views.index, name="index"),
+    path("cctv/", cctv_views.cctv, name="cctv"),
+    path("cctv/room/", cctv_views.room, name="room"),
+    path("statistics/", cctv_views.statistics, name="statistics"),
+    path("statistics/date", cctv_views.date, name="date"),
+    path("statistics/dateDetail", cctv_API_views.dateDetail, name="dateDetail"),
 ]

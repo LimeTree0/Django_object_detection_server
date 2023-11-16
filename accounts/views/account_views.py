@@ -21,7 +21,7 @@ def signup(request):
 # 로그인
 def login(request):
     if request.method == 'POST':
-        username = request.POST['username']
+        username = request.POST['id']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password) # 사용자가 입력한 정보가 올바른지 확인
         if user is not None:
@@ -36,3 +36,9 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('/accounts/login')
+
+def manage(request):
+    if not request.user.is_authenticated:
+        return redirect('/accounts/login')
+
+    return render(request, 'manage.html')
