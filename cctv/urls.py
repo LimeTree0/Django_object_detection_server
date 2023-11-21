@@ -10,5 +10,7 @@ urlpatterns = [
     path("statistics/", cctv_views.statistics, name="statistics"),
     path("statistics/date", cctv_views.date, name="date"),
     path("statistics/dateDetail", cctv_API_views.dateDetail, name="dateDetail"),
-    path("statistics/accedentDetail", cctv_API_views.accedentDetail, name="accedentDetail"),
+    path("statistics/dateFindByDate", cctv_API_views.dateFindByDate, name="dateFindByDate"),
+    path("statistics/accedentFindAll", cctv_API_views.accedentFindAll, name="accedentFindAll"),
+    path("statistics/accedentFindByDate", cctv_API_views.accedentFindByDate, name="accedentFindByDate"),
 ]

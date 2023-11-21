@@ -35,26 +35,26 @@
                     <h1>로그 페이지입니다</h1>
 
                     {#통계 기간 지정#}
-                    <form action="/statistics/date" , method="GET">
+                    <form method="GET">
                         <input type="date" id="dateFrom" name="dateFrom"></input>
                         <input type="date" id="dateTo" name="dateTo"></input>
-                        <input type="button" onclick="drawGraph()" value="전송">
+                        <input type="button" onclick="drawObjectGraph()" value="전송">
                     </form>
 
                     {#    막대 그래프 차트#}
                     <canvas id="ObjectbarChart"></canvas>
                     <canvas id="ObjectLineChart"></canvas>
-                    <canvas id="ObjectDoughnutChart"></canvas>
-                    {#json으로 파싱하면서 더 이상 작동 안함#}
-                    {#<table>#}
-                    {#    {% for log in loglist %}#}
-                    {#        <ul>#}
-                    {#            <li>{{ log.log }}</li>#}
-                    {#            <li>{{ log.time|date:'Y-m-d H:i' }}</li>#}
-                    {#            <li>{{ log.location }}</li>#}
-                    {#        </ul>#}
-                    {#    {% endfor %}#}
-                    {#</table>#}
+
+                    {# 사고 통계 기간 지정 #}
+                    <form method="GET">
+                        <input type="date" id="accidentDateFrom" name="dateFrom"></input>
+                        <input type="date" id="accidentDateTo" name="dateTo"></input>
+                        <input type="button" onclick="drawAccidentGraph()" value="전송">
+                    </form>
+
+                    <canvas id="AccidentbarChart"></canvas>
+                    <canvas id="AccidentLineChart"></canvas>
+
 
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                     <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -97,7 +97,11 @@
     var barChart = null;
     var lineChart = null;
 
-    function drawGraph() {
+    var AccidentbarChart = null;
+    var AccidentlineChart = null;
+
+    // 객체 탐지 그래프 그리는 함수
+    function drawObjectGraph() {
         function getLog() {
             var log = "";
             var dateFrom = document.getElementById('dateFrom').value;
@@ -121,21 +125,6 @@
         // fields는 json의 fields이다.(fileds 안에 실제 데이터가 들어가 있음)
         // databaseAttribute는 실제 데이터베이스에 있는 속성이다.
         var log = getLog();
-
-        // log로 부터 탐지 객체 로그 파싱 후 objectDict에 저장
-        /*
-        for (var i = 0; i < log.length; i++) {
-            var logtemp = log[i]['fields'].log;
-            var json_log = JSON.parse(logtemp);
-            var keys = Object.keys(json_log);
-            keys.forEach(function (key) {
-                if (objectDict[key] === undefined)
-                    objectDict[key] = json_log[key];
-                else
-                    objectDict[key] += json_log[key];
-
-            })
-        }*/
 
         // 로그 데이터 저장 배열. 필요 없는 데이터(모델 정보, pk등 )를 없앤 로그 데이터 배열
         var logArr = [];
@@ -228,11 +217,6 @@
                 truck[time] += logArr[i][2]["truck"];
             }
         }
-        console.log(bike);
-        console.log(car);
-        console.log(truck);
-        console.log(bus);
-        console.log(dateLabel);
 
         // 날짜별 객체 탐지 개수 그래프
 
@@ -287,6 +271,158 @@
                     },
                     x: {
                         beginAtZero: true,
+                    }
+                },
+                lineTension: 0.3,
+            }
+        })
+    }
+
+    // 사고 탐지 그래프 그리는 함수
+    function drawAccidentGraph() {
+        function getLog() {
+            var log = "";
+            var dateFrom = document.getElementById('accidentDateFrom').value;
+            var dateTo = document.getElementById('accidentDateTo').value;
+            $.ajax({
+                url: 'http://127.0.0.1:8000/statistics/accedentFindAll?dateFrom=' + dateFrom + '&dateTo=' + dateTo,
+                async: false,
+                dataType: "JSON",
+                success: function (data) {
+                    log = JSON.parse(data);
+                },
+            });
+
+            return log;
+        }
+
+
+        // 다음과 같은 방식으로 접근 가능(log[index]["fields"].databaseAttribute)
+        // index는 log 배열의 인덱스이다
+        // json은 model, pk, fields로 나누어진다.
+        // fields는 json의 fields이다.(fileds 안에 실제 데이터가 들어가 있음)
+        // databaseAttribute는 실제 데이터베이스에 있는 속성이다.
+        var log = getLog();
+
+        // 로그 데이터 저장 배열. 필요 없는 데이터(모델 정보, pk등 )를 없앤 로그 데이터 배열
+        var logArr = [];
+        // 탐지 객체 저장 딕셔너리
+        var objectDict = {};
+
+        for (var i = 0; i < log.length; i++) {
+            var logtemp = log[i]['fields'].log;
+            var json_log = JSON.parse(logtemp);
+            var keys = Object.keys(json_log);
+            var objectDictTemp = {};
+            keys.forEach(function (key) {
+                // 로그데이터 배열에 로그 데이터 저장
+                if (objectDictTemp[key] === undefined)
+                    objectDictTemp[key] = json_log[key];
+
+                // 탐지 객체 딕셔너리에 탐지 내용 저장
+                if (objectDict[key] === undefined)
+                    objectDict[key] = json_log[key];
+                else
+                    objectDict[key] += json_log[key];
+
+            });
+            logArr[i] = [log[i]["fields"].time, log[i]["fields"].location, json_log];
+        }
+
+        // 키 set과 data set으로 분리
+        var labels = Object.keys(objectDict);
+        var data = Object.keys(objectDict).map(function (key) {
+            return objectDict[key];
+        })
+
+        // 막대 그래프 생성 스크립트
+        const ctxBar = document.getElementById('AccidentbarChart');
+
+        // 막대 차트 그리기
+        if (AccidentbarChart !== null) AccidentbarChart.destroy();
+        AccidentbarChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: '사고 탐지 횟수',
+                        data: data,
+                        borderWidth: 1,
+                        borderColor: "#3e95cd"
+                    }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var severe = [];
+        var moderate = [];
+        var dateLabel = new Set();
+
+        // 탐지 객체 배열 초기화
+        for (var i = 0; i < logArr.length; i++) {
+            time = logArr[i][0].split("T")[0];
+            dateLabel.add(time);
+
+            severe[time] = 0;
+            moderate[time] = 0;
+        }
+
+        // 실제 탐지 객체 개수 저장
+        for (var i = 0; i < logArr.length; i++) {
+            time = logArr[i][0].split("T")[0];
+
+            if (logArr[i][2]["moderate"] !== undefined) {
+                moderate[time] += logArr[i][2]["moderate"];
+            }
+            if (logArr[i][2]["severe"] !== undefined) {
+                severe[time] += logArr[i][2]["severe"];
+            }
+        }
+
+        // 날짜별 객체 탐지 개수 그래프
+
+        // 막대 그래프 생성 스크립트
+        const ctxLine = document.getElementById('AccidentLineChart');
+
+        // 막대 차트 그리기
+        if (AccidentlineChart !== null) AccidentlineChart.destroy();
+        AccidentlineChart = new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: [...dateLabel],
+                datasets: [
+                    {
+                        label: '심각한 사고 탐지 개수',
+                        data: Object.keys(severe).map(function (key) {
+                            return severe[key];
+                        }),
+                        borderWidth: 1,
+                        borderColor: "#e06d8a"
+                    },
+                    {
+                        label: '일반 사고 탐지 개수',
+                        data: Object.keys(moderate).map(function (key) {
+                            return moderate[key];
+                        }),
+                        borderWidth: 1,
+                        borderColor: "#758ce5"
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        beginAtZero: false,
                     }
                 },
                 lineTension: 0.3,

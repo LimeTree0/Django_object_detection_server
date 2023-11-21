@@ -16,8 +16,24 @@ def dateDetail(request):
 
     return HttpResponse(json.dumps(datelog))
 
-def accedentDetail(request):
+def dateFindByDate(request):
+    values = ObjectDetection.objects.filter(time=[request.GET['date']])
+    datelog = serializers.serialize("json", values)
+
+    # print(datelog)
+
+    return HttpResponse(json.dumps(datelog))
+
+def accedentFindAll(request):
     values = AccidentDetection.objects.filter(time__range=[request.GET['dateFrom'], request.GET['dateTo']])
+    accidentlog = serializers.serialize("json", values)
+
+    # print(datelog)
+
+    return HttpResponse(json.dumps(accidentlog))
+
+def accedentFindByDate(request):
+    values = AccidentDetection.objects.filter(time=[request.GET['date']])
     accidentlog = serializers.serialize("json", values)
 
     # print(datelog)
