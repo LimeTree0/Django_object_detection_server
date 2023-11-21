@@ -17,7 +17,7 @@ def cctv(request):
     return render(request, "cctv/cctv.html")
 
 
-def room(request):
+def room(request, room_name):
     if not request.user.is_authenticated:
         return redirect('/accounts/login')
     cctvName = request.GET.get('name', None)

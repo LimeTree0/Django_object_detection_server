@@ -1,36 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
-<head>
-    <meta name="astro-view-transitions-enabled" content="true">
-    <meta name="astro-view-transitions-fallback" content="animate"><!-- <script>
-      document.addEventListener("astro:page-load", () => {
-        const themeSelect = document.getElementById("theme");
-
-        if (localStorage.getItem("theme") === null) {
-          document.documentElement.setAttribute("data-theme", "light");
-        }
-
-        themeSelect.addEventListener("change", (e) => {
-          const theme = e.target.value;
-          document.documentElement.setAttribute("data-theme", theme);
-          localStorage.setItem("theme", theme);
-        });
-      });
-
-      document.addEventListener("astro:after-swap", () => {
-        const theme = localStorage.getItem("theme");
-        document.documentElement.setAttribute("data-theme", theme);
-      });
-    </script> -->
-    <meta charset="UTF-8">
-    <meta name="description" content="Astro description">
-    <meta name="viewport" content="width=device-width">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <meta name="generator" content="Astro v3.5.4">
-    <title>Statistics</title>
-    <link rel="stylesheet" href="/static/login.67f6964b.css"/>
-    <script type="module" src="/static/hoisted.0fc80631.js"></script>
-</head>
 <body>
 <div id="app" class="flex h-screen max-w-screen flex-col">
     <header class="flex-0 container navbar mx-auto 1080p:max-w-screen-2xl">
@@ -73,7 +42,7 @@
                     </form>
 
                     {#    막대 그래프 차트#}
-                    <canvas id="ObjectStickChart"></canvas>
+                    <canvas id="ObjectbarChart"></canvas>
                     <canvas id="ObjectLineChart"></canvas>
                     <canvas id="ObjectDoughnutChart"></canvas>
                     {#json으로 파싱하면서 더 이상 작동 안함#}
@@ -125,6 +94,7 @@
 
     // ajax를 이용해 로그 데이터를 받는다. 받은 데이터는
 
+    var barChart = null;
     var lineChart = null;
 
     function drawGraph() {
@@ -167,8 +137,6 @@
             })
         }*/
 
-        console.log(log);
-
         // 로그 데이터 저장 배열. 필요 없는 데이터(모델 정보, pk등 )를 없앤 로그 데이터 배열
         var logArr = [];
         // 탐지 객체 저장 딕셔너리
@@ -200,14 +168,12 @@
             return objectDict[key];
         })
 
-        console.log(labels)
-
         // 막대 그래프 생성 스크립트
-        const ctx = document.getElementById('ObjectStickChart');
+        const ctxBar = document.getElementById('ObjectbarChart');
 
         // 막대 차트 그리기
-        if (lineChart !== null) lineChart.destroy();
-        lineChart = new Chart(ctx, {
+        if (barChart !== null) barChart.destroy();
+        barChart = new Chart(ctxBar, {
             type: 'bar',
             data: {
                 labels: labels,
@@ -217,12 +183,6 @@
                         data: data,
                         borderWidth: 1,
                         borderColor: "#3e95cd"
-                    },
-                    {
-                        label: '탐지 개수',
-                        data: [100, 25, 77, 58, 44, 234],
-                        borderWidth: 1,
-                        borderColor: "#3ee345"
                     }]
             },
             options: {
@@ -233,72 +193,137 @@
                 }
             }
         });
-        /*
-    // 꺽은 선 그래프
-    new Chart(document.getElementById('ObjectLineChart'), {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: '탐지 개수',
-                    data: data,
-                    borderWidth: 1,
-                    borderColor: "#3e95cd"
-                },
-                {
-                    label: '탐지 개수',
-                    data: [100, 25, 77, 58, 44, 234],
-                    borderWidth: 1,
-                    borderColor: "#3ee345"
-                }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+
+        var bike = [];
+        var car = [];
+        var bus = [];
+        var truck = [];
+        var dateLabel = new Set();
+
+        // 탐지 객체 배열 초기화
+        for (var i = 0; i < logArr.length; i++) {
+            time = logArr[i][0].split("T")[0];
+            dateLabel.add(time);
+
+            bike[time] = 0;
+            car[time] = 0;
+            bus[time] = 0;
+            truck[time] = 0;
+        }
+
+        // 실제 탐지 객체 개수 저장
+        for (var i = 0; i < logArr.length; i++) {
+            time = logArr[i][0].split("T")[0];
+
+            if (logArr[i][2]["bike"] !== undefined) {
+                bike[time] += logArr[i][2]["bike"];
+            }
+            if (logArr[i][2]["car"] !== undefined) {
+                car[time] += logArr[i][2]["car"];
+            }
+            if (logArr[i][2]["bus"] !== undefined) {
+                bus[time] += logArr[i][2]["bus"];
+            }
+            if (logArr[i][2]["truck"] !== undefined) {
+                truck[time] += logArr[i][2]["truck"];
             }
         }
-    });
+        console.log(bike);
+        console.log(car);
+        console.log(truck);
+        console.log(bus);
+        console.log(dateLabel);
 
-    // 도넛 그래프
-    new Chart(document.getElementById('ObjectDoughnutChart'), {
-        type: 'doughnut',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: '탐지 개수',
-                    data: data,
-                    borderWidth: 1,
-                    borderColor: "#3e95cd",
-                    backgroundColor: [
-                        "#2248d4",
-                        "#677a8a",
-                        "#31ab4e",
-                        "#c7e373",
-                        "#cc67bb",
-                        "#e32d2d",
-                    ]
+        // 날짜별 객체 탐지 개수 그래프
+
+        // 막대 그래프 생성 스크립트
+        const ctxLine = document.getElementById('ObjectLineChart');
+
+        // 막대 차트 그리기
+        if (lineChart !== null) lineChart.destroy();
+        lineChart = new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: [...dateLabel],
+                datasets: [
+                    {
+                        label: '승용차 탐지 개수',
+                        data: Object.keys(car).map(function (key) {
+                            return car[key];
+                        }),
+                        borderWidth: 1,
+                        borderColor: "#3ee345"
+                    },
+                    {
+                        label: '버스 탐지 개수',
+                        data: Object.keys(bus).map(function (key) {
+                            return bus[key];
+                        }),
+                        borderWidth: 1,
+                        borderColor: "#9b6693"
+                    },
+                    {
+                        label: '트럭 탐지 개수',
+                        data: Object.keys(truck).map(function (key) {
+                            return truck[key];
+                        }),
+                        borderWidth: 1,
+                        borderColor: "#a8bd6c"
+                    },
+                    {
+                        label: '오토바이 탐지 개수',
+                        data: Object.keys(bike).map(function (key) {
+                            return bike[key];
+                        }),
+                        borderWidth: 1,
+                        borderColor: "#ce917b"
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        beginAtZero: true,
+                    }
                 },
-                {
-                    label: '탐지 개수',
-                    data: [100, 25, 77, 58, 44, 234],
-                    borderWidth: 1,
-                    borderColor: "#3ee345",
-                    backgroundColor: [
-                        "rgba(34,72,212,0.4)",
-                        "rgba(103,122,138,0.34)",
-                        "rgba(49,171,78,0.38)",
-                        "rgba(199,227,115,0.3)",
-                        "rgba(204,103,187,0.26)",
-                        "rgba(227,45,45,0.25)",
-                    ]
-                }]
-        },
-    });*/
+                lineTension: 0.3,
+            }
+        })
     }
 </script>
 </body>
+<head>
+    <meta name="astro-view-transitions-enabled" content="true">
+    <meta name="astro-view-transitions-fallback" content="animate"><!-- <script>
+      document.addEventListener("astro:page-load", () => {
+        const themeSelect = document.getElementById("theme");
+
+        if (localStorage.getItem("theme") === null) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+
+        themeSelect.addEventListener("change", (e) => {
+          const theme = e.target.value;
+          document.documentElement.setAttribute("data-theme", theme);
+          localStorage.setItem("theme", theme);
+        });
+      });
+
+      document.addEventListener("astro:after-swap", () => {
+        const theme = localStorage.getItem("theme");
+        document.documentElement.setAttribute("data-theme", theme);
+      });
+    </script> -->
+    <meta charset="UTF-8">
+    <meta name="description" content="Astro description">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="generator" content="Astro v3.5.4">
+    <title>Statistics</title>
+    <link rel="stylesheet" href="/static/login.67f6964b.css"/>
+    <script type="module" src="/static/hoisted.0fc80631.js"></script>
+</head>
 </html>

@@ -57,8 +57,8 @@ class VideoCamera(object):
         ]
 
         # 탐지 객체 로그
-        print("[camera.py log_object]", "detected: ", labels_object)
-        print("[camera.py log_accident]",  "detected: " ,labels_accident)
+        # print("[camera.py log_object]", "detected: ", labels_object)
+        # print("[camera.py log_accident]",  "detected: " ,labels_accident)
 
         # 이미지에 바운딩 박스 생성
         frame = self.box_annotator.annotate(scene=frame, detections=detections_object, labels=labels_object)
@@ -72,3 +72,7 @@ class VideoCamera(object):
     def update(self):
         while True:
             (self.grabbed, self.frame) = self.video.read()
+
+    def close(self):
+        self.video.release()
+        print("비디오 종료")

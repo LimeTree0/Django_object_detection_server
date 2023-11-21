@@ -5,20 +5,22 @@ import time
 
 from channels.generic.websocket import WebsocketConsumer
 from . import camera
-from .models import ObjectDetection, AccidentDetection
+from .models import ObjectDetection, AccidentDetection, CCTVAdress
+
 
 
 # websocket 연결부터 종료까지 수행할 일이 담긴 클래스
 class ChatConsumer(WebsocketConsumer):
+
     def connect(self):
+        self.cctvNum = self.scope['path'].split('/')[-2]
+        cctvAddress = self.getAddress(self.cctvNum)
+        self.video_camera = camera.VideoCamera(cctvAddress)
+
         self.accept()
 
-
-        cctvAddress = self.scope['path'].split('/')[-2]
-        self.video_camera = camera.VideoCamera(int(cctvAddress))
-
     def disconnect(self, close_code):
-        pass
+        self.video_camera.close()
 
     def receive(self, text_data):
         # text_data_json = json.loads(text_data)
@@ -39,15 +41,17 @@ class ChatConsumer(WebsocketConsumer):
             labels_object = json.dumps(labels_object)
             labels_accident = dict(collections.Counter(labels_accident))
             labels_accident = json.dumps(labels_accident)
+
             self.send(text_data=json.dumps({
-                                "object_detection": labels_object,
-                                "accident_detection": labels_accident,
-                                "detect_time": detect_time,
-                                "frame": frame}))
+                "object_detection": labels_object,
+                "accident_detection": labels_accident,
+                "detect_time": detect_time,
+                "frame": frame}))
+
             print("전송")
 
-        # 탐지 내용 DB에 저장
-        # 객체 탐지 내용
+        # # 탐지 내용 DB에 저장
+        # # 객체 탐지 내용
         objectDectection = ObjectDetection()
         objectDectection.time = detect_time
         objectDectection.log = labels_object
@@ -62,4 +66,13 @@ class ChatConsumer(WebsocketConsumer):
         print("DB 저장")
 
         self.send(text_data="end")
+    def cctvAddressConvert(self, address):
+        if(address.isdigit()):
+            return int(address)
+        else:
+            return address
 
+
+    def getAddress(self, address):
+        address = CCTVAdress.objects.get(cctv_num=int(address)).address
+        return self.cctvAddressConvert(address)
