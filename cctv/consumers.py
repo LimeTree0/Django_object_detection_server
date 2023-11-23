@@ -74,5 +74,5 @@ class ChatConsumer(WebsocketConsumer):
 
 
     def getAddress(self, address):
-        address = CCTVAdress.objects.get(cctv_num=int(address)).address
+        address = CCTVAdress.objects.get(cctv_num=int(address)).cam_address
         return self.cctvAddressConvert(address)

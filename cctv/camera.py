@@ -18,7 +18,7 @@ class VideoCamera(object):
         (self.grabbed, self.frame) = self.video.read()
 
         # 모델 선택
-        self.model_object = YOLO("yolov8s.pt")
+        self.model_object = YOLO("best.pt")
         self.model_object.to('cuda')
         self.model_accident = YOLO("accident.pt")
         self.model_accident.to('cuda')
